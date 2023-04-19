@@ -237,8 +237,19 @@ line_b = alt.Chart(forecast1,title="Conversion Behavior").mark_line().encode(
     x='yearmonth(date):T',
     y='mean(Conversions):Q',
     color='Company:N'
-# ).transform_filter(
-#    alt.FieldOneOfPredicate(field='Company', oneOf=['Jetblue', 'Jetblue_pred'])
+).transform_filter(
+   alt.FieldOneOfPredicate(field='Company', oneOf=['Jetblue', 'Jetblue_pred'])
+).properties(
+    height=600 
+    ,width= 1700
+).interactive()
+
+line_ab = alt.Chart(forecast1,title="Conversion Behavior").mark_line().encode(
+    x='yearmonth(date):T',
+    y='mean(Conversions):Q',
+    color='Company:N'
+).transform_filter(
+   alt.FieldOneOfPredicate(field='Company', oneOf=['Motel6', 'Motel6_pred','Jetblue', 'Jetblue_pred'])
 ).properties(
     height=600 
     ,width= 1700
@@ -342,8 +353,10 @@ with col3:
     st.header("  ")
 
 # options = st.multiselect('Select your competitor',('Company', 'Competitor B'))
-if 'Competitor B' in options:
-    line_b    
+if ('Competitor B' in options) &('Company' in options):
+    line_ab    
+elif 'Competitor B' in options:
+    line_b
 else:
     line_a
 # st.markdown('<div style="text-align: center;">Conversions predictions and comparison based on different clients</div>', unsafe_allow_html=True)
