@@ -42,7 +42,7 @@ st.markdown(f""" <style>
 col1, col2 = st.columns([13, 2])
 
 ## Header
-col1.title('Zeta Customer Growth Intelligence')
+col1.title('Customer Growth Intelligence')
 """Growth Intelligence & Insights Using Zeta Data"""
 
 ## Zeta Logo
@@ -296,6 +296,7 @@ graph6 = hexbin
 
 # 7. Predictions graph 
 forecast = pd.read_csv('competitors2.csv')
+forecast.columns=['date', 'Company A', 'Competitor B', 'Competitor B Pred', 'Company A Pred']
 forecast1 = forecast.reset_index().melt('date', var_name='Company', value_name='Conversions')
 forecast1 = forecast1[~forecast1.Company.isin(['index'])]
 plot_title = alt.TitleParams("Conversion Predictions",dx=60)
@@ -304,7 +305,7 @@ line_a=alt.Chart(forecast1,title=plot_title).mark_line().encode(
     y='mean(Conversions):Q',
     color='Company:N'
 ).transform_filter(
-    alt.FieldOneOfPredicate(field='Company', oneOf=['Motel6', 'Motel6_pred'])
+    alt.FieldOneOfPredicate(field='Company', oneOf=['Company A', 'Company A Pred'])
 ).properties(
     height=600 
     ,width= 1800
@@ -316,7 +317,7 @@ line_b = alt.Chart(forecast1,title=plot_title).mark_line().encode(
     y='mean(Conversions):Q',
     color='Company:N'
 ).transform_filter(
-   alt.FieldOneOfPredicate(field='Company', oneOf=['Jetblue', 'Jetblue_pred'])
+   alt.FieldOneOfPredicate(field='Company', oneOf=['Competitor B', 'Competitor B Pred'])
 ).properties(
     height=600 
     ,width= 1800
@@ -327,7 +328,7 @@ line_ab = alt.Chart(forecast1,title="Conversion Behavior").mark_line().encode(
     y='mean(Conversions):Q',
     color='Company:N'
 ).transform_filter(
-   alt.FieldOneOfPredicate(field='Company', oneOf=['Motel6', 'Motel6_pred','Jetblue', 'Jetblue_pred'])
+   alt.FieldOneOfPredicate(field='Company', oneOf=['Company A', 'Company A Pred','Competitor B', 'Competitor B Pred'])
 ).properties(
     height=600 
     ,width= 1800
@@ -428,7 +429,7 @@ with col1:
     # graph10
     st.header("  ")
     # st.header("  ")
-    options = st.multiselect('Select your competitor',('Company', 'Competitor B'))
+    options = st.multiselect('Select your competitor',('Company A', 'Competitor B'))
 
     # if 'Competitor B' in options:
     #     # st.altair_chart(line_b, use_container_width=True)
@@ -492,7 +493,7 @@ with col3:
 # else:
 #     line_a
 
-if ('Competitor B' in options) &('Company' in options):
+if ('Competitor B' in options) &('Company A' in options):
     st.altair_chart(line_ab, use_container_width=True)
     # line_ab    
 elif 'Competitor B' in options:
@@ -531,7 +532,7 @@ text-align: center;
 }
 </style>
 <div class="footer">
-<p>(c) 2023 Zeta Global, Dev Version 2, GDSA</p>
+<p>(c) 2023 Zeta Global, Dev Version 3, GDSA</p>
 </div>
 """
 st.markdown(footer,unsafe_allow_html=True)
