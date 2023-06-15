@@ -296,7 +296,7 @@ graph6 = hexbin
 
 # 7. Predictions graph 
 forecast = pd.read_csv('competitors2.csv')
-forecast.columns=['date', 'Company A', 'Competitor B', 'Competitor B Pred', 'Company A Pred']
+forecast.columns=['date', 'Company A', 'Competitor B', 'Competitor B Predict', 'Company A Predict']
 forecast1 = forecast.reset_index().melt('date', var_name='Company', value_name='Conversions')
 forecast1 = forecast1[~forecast1.Company.isin(['index'])]
 plot_title = alt.TitleParams("Conversion Predictions",dx=60)
@@ -305,7 +305,7 @@ line_a=alt.Chart(forecast1,title=plot_title).mark_line().encode(
     y='mean(Conversions):Q',
     color='Company:N'
 ).transform_filter(
-    alt.FieldOneOfPredicate(field='Company', oneOf=['Company A', 'Company A Pred'])
+    alt.FieldOneOfPredicate(field='Company', oneOf=['Company A', 'Company A Predict'])
 ).properties(
     height=600 
     ,width= 1800
@@ -317,7 +317,7 @@ line_b = alt.Chart(forecast1,title=plot_title).mark_line().encode(
     y='mean(Conversions):Q',
     color='Company:N'
 ).transform_filter(
-   alt.FieldOneOfPredicate(field='Company', oneOf=['Competitor B', 'Competitor B Pred'])
+   alt.FieldOneOfPredicate(field='Company', oneOf=['Competitor B', 'Competitor B Predict'])
 ).properties(
     height=600 
     ,width= 1800
@@ -328,7 +328,7 @@ line_ab = alt.Chart(forecast1,title="Conversion Behavior").mark_line().encode(
     y='mean(Conversions):Q',
     color='Company:N'
 ).transform_filter(
-   alt.FieldOneOfPredicate(field='Company', oneOf=['Company A', 'Company A Pred','Competitor B', 'Competitor B Pred'])
+   alt.FieldOneOfPredicate(field='Company', oneOf=['Company A', 'Company A Predict','Competitor B', 'Competitor B Predict'])
 ).properties(
     height=600 
     ,width= 1800
